@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'fontawesome_6'
 ]
 
 MIDDLEWARE = [
@@ -77,11 +78,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'autique',
-        'USER': 'Anda',
-        'PASSWORD': '11111',
+        'USER': 'peetchie',
+        'PASSWORD': '02247',
         'HOST': 'localhost',
         'PORT': '3306',
-
     }
 }
 
