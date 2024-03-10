@@ -1,8 +1,6 @@
 from django.shortcuts import render
-
 def home(request):
     return render(request, 'dasbord.html')
-
 def stockIn(request):
     return render(request, 'stockIn/stockIn.html')
 def stockOut(request):
@@ -43,5 +41,3 @@ def empDelete(request):
     return render(request, 'employee/empDelete.html')
 def empUpdate(request):
     return render(request, 'employee/empUpdate.html')
-
-

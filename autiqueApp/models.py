@@ -1,3 +1,7 @@
-from django.db import models
+#พนักงาน Employee
+#ลูกค้า Customer
 
-# Create your models here.
+#ประเภทของ type
+#คลังของเก่า Inventory
+#รายการรับซื้อ PurcheseOrder
+#รายการรับขาย SalesOrder
