@@ -1,0 +1,35 @@
+<div id="layoutSidenav_nav">
+        <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+            <div class="sb-sidenav-menu">
+                <div class="nav">
+                    <div class="sb-sidenav-menu-heading">ซื้อ-ขาย</div>
+                    <a class="nav-link" href="{% url 'stockIn' %}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-cart-plus"></i></div>
+                        รับซื้อ
+                    </a>
+                    <a class="nav-link" href="{% url 'stockOut' %}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-shopping-cart"></i></div>
+                        รับขาย
+                    </a>
+                    <div class="sb-sidenav-menu-heading">คลังสินค้า</div>
+                    <a class="nav-link" href="{% url 'typeNew' %}">
+                        <div class="sb-nav-link-icon"><i class="fa fa-archive"></i></div>
+                        ข้อมูลสินค้า
+                    </a>
+                    <div class="sb-sidenav-menu-heading">จัดการข้อมูล</div>
+                    <a class="nav-link" href="{% url 'cusNew' %}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-address-book"></i></div>
+                        ข้อมูลลูกค้า
+                    </a>
+                    <a class="nav-link" href="{% url 'empNew' %}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-id-card-alt"></i></div>
+                        ข้อมูลพนักงาน
+                    </a>
+                </div>
+            </div>
+            <div class="sb-sidenav-footer">
+                <div class="small">Logged in as:</div>
+                Start Bootstrap
+            </div>
+        </nav>
+    </div>
