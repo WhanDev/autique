@@ -1,40 +1,50 @@
+from django.db import models
+from django.utils import timezone
+
 #รับซื้อของเก่า
-#พนักงาน Employee
-    # --ID :: รหัสบัตรปปช
-    # --Username :: ชื่อผู้ใช้
-    # --Email :: Email
-    # --firstName :: ชื่อจริง
-    # --lastName :: นามสกุล
-    # --Address :: ที่อยู่
-    # --Tell :: เบอร์โทร่
-    # --Password :: รหัสผ่าน (Save as Auth user)
+class Employee(models.Model):
+    id = models.AutoField(primary_key=True,max_length=13, default="")
+    userName = models.CharField(max_length=100, default="")
+    email = models.CharField(max_length=100, default="")
+    fullName = models.CharField(max_length=100, default="")
+    address = models.TextField(default="")
+    tell = models.CharField(max_length=10, default="")
     # Admin Added
-#ลูกค้า Customer
-    # --ID :: รหัสบัตรปปช Auto
-    # --firstName :: ชื่อจริง
-    # --lastName :: นามสกุล
-    # --Address :: ที่อยู่
-    # --Tell :: เบอร์โทร่
-#ประเภทของค้า(แก้ว, พลาสติก, etc)
-    # --ID :: รหัสสินค้า
-    # --ProductName :: ชื่อสินค้า
-    # --PriceRateReceive :: เรตราคารับ
-    # --PriceRateSend :: เรตราคาส่ง
-#สินค้าคงคลัง InventoryStock
-    # --ID :: รหัสสินค้าคงคลัง
-    # --IDProductFK :: รหัสสินค้า(FK)
-    # --TotalAmount :: จำนวนรวม (น้ำหนัก)
-#รายการรับซื้อ PurcheseOrder
-    # --ID :: ไอดีรายการรับซื้อ
-    # --IDProductFK :: รหัสสินค้า(FK)
-    # --Amount :: จำนวนที่ซื้อ
-    # --Price :: ราคารวม
-    # --Date :: วันที่รับซื้อ (ไม่ต้องกรอกมั้ย)
-    # --cus_id :: ไอดีลูกค้า (FK) **รอพิจารณาอีกที
-#รายการขาย SalesOrder
-    # --ID :: ไอดีรายการขาย
-    # --IDProductFK :: รหัสสินค้า(FK)
-    # --Amount :: จำนวนที่ซื้อ
-    # --Price :: ราคารวม
-    # --Date :: วันที่รับซื้อ (ไม่ต้องกรอกมั้ย)
-    # --cus_id :: ไอดีลูกค้า (FK) **รอพิจารณาอีกที
+
+class Customer(models.Model):
+    id = models.AutoField(primary_key=True,max_length=13, default="")
+    fullName = models.CharField(max_length=100, default="")
+    address = models.TextField(default="")
+    tell = models.CharField(max_length=10, default="")
+
+    def __str__(self):
+        return self.fullName
+
+class Type(models.Model):
+    id = models.AutoField(primary_key=True)
+    productName = models.CharField(max_length=100, default="")
+    rateReceive = models.IntegerField(default=0)
+    rateSend = models.IntegerField(default=0)
+    def __str__(self):
+        return self.productName
+
+class InventoryStock(models.Model):
+    id = models.AutoField(primary_key=True)
+    type_id = models.ForeignKey(Type, on_delete=models.CASCADE, default=None)
+    totalAmount = models.DecimalField(default=0.00)
+
+class ReceiveOrder(models.Model):
+    id = models.AutoField(primary_key=True)
+    inv_id = models.ForeignKey(InventoryStock, on_delete=models.CASCADE, default=None)
+    amount = models.IntegerField(default=0)
+    total = models.DecimalField(default=0.00)
+    date = models.DateTimeField(default=timezone.now)
+    cus_id = models.ForeignKey(Customer, on_delete=models.CASCADE, default=None)
+
+class SendOrder(models.Model):
+    id = models.AutoField(primary_key=True)
+    inv_id = models.ForeignKey(InventoryStock, on_delete=models.CASCADE, default=None)
+    amount = models.IntegerField(default=0)
+    total = models.DecimalField(default=0.00)
+    date = models.DateTimeField(default=timezone.now)
+    cus_id = models.ForeignKey(Customer, on_delete=models.CASCADE, default=None)
