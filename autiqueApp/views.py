@@ -2,9 +2,9 @@ from django.shortcuts import render
 def home(request):
     return render(request, 'dasbord.html')
 def stockIn(request):
-    return render(request, 'stockIn/stockIn.html')
+    return render(request, 'stock/stockIn.html')
 def stockOut(request):
-    return render(request, 'stockOut/stockOut.html')
+    return render(request, 'stock/stockOut.html')
 
 def stockNew(request):
     return render(request, 'stock/stockNew.html')
