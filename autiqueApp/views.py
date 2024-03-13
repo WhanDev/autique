@@ -97,49 +97,55 @@ def changePassword(request):
     else:
         return render(request, 'auth/changePassword.html')
 
+
 from django.http import JsonResponse
+import json
+
+
 @login_required(login_url='signin')
 def stockInNew(request):
     if request.method == 'POST':
         cus_id = request.POST.get('cus_id')
-        purchase_items = request.POST.get('purchase_items')
+        type_ids = request.POST.getlist('type_id')
+        amounts = request.POST.getlist('amount')
 
-        purchase_items = json.loads(purchase_items)
+        orderNew = ReceiveOrder()
+        orderNew.save()
+        order_id = orderNew.id
 
-        customer, _ = Customer.objects.get_or_create(id=cus_id)
+        order = ReceiveOrder.objects.get(id=order_id)
+        customer = Customer.objects.get(id=cus_id)
 
         total = 0
 
-        for item in purchase_items:
-            type_id = int(item['type_id'])
-            amount = int(item['amount'])
+        for type_id, amount in zip(type_ids, amounts):
+            # Convert amount to Decimal
+            amount = Decimal(amount)
 
-            order = ReceiveOrder.objects.create()
+            # Retrieve the Type instance from the database
+            type_instance = get_object_or_404(Type, id=type_id)
 
-            if not InventoryStock.objects.filter(type_id=type_id).exists():
-                inventory = InventoryStock.objects.create(type_id=type_id, totalAmount=amount)
+            if not InventoryStock.objects.filter(type_id=type_instance).exists():
+                inventory = InventoryStock()
+                inventory.type_id = type_instance
+                inventory.totalAmount = amount
+                inventory.save()
             else:
-                inventory = InventoryStock.objects.get(type_id=type_id)
+                inventory = InventoryStock.objects.get(type_id=type_instance)
                 inventory.totalAmount += amount
                 inventory.save()
 
-            detail = ReceiveDetail.objects.create(
-                inv_id=inventory,
-                amount=amount,
-                total=inventory.type_id.rateReceive * amount,
-                cus_id=customer,
-                order_id=order.id
-            )
-
+            detail = ReceiveDetail()
+            detail.inv_id = inventory
+            detail.amount = amount
+            detail.total = inventory.type_id.rateReceive * amount
+            detail.cus_id = customer
+            detail.order_id = order
             total += detail.total
 
-        order.total = total
-        order.save()
-
-        if request.is_ajax():
-            return JsonResponse({'success': True})
-        else:
-            return redirect('stockInList')
+        orderNew.total = total
+        orderNew.save()
+        return redirect('stockInList')
 
     types = Type.objects.all().order_by('id')
     cuss = Customer.objects.all().order_by('id')
