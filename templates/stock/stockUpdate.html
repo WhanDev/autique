@@ -1,10 +1,6 @@
-@ -1,7 +1,45 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<div>
-    <h1>ดีคับ</h1>
-
 <div class="p-3">
     <div class="card mt-2">
         <div class="card-header">
@@ -17,7 +13,9 @@
                     <select class="form-select" id="type_id" name="type_id" required>
                         <option value="" selected disabled>โปรดเลือกประเภท</option>
                         {% for type in types %}
-                        <option value="{{ type.id }}" {% if type.id == stock.type_id.id %} selected {% endif %}>{{ type.productName }}</option>
+                        <option value="{{ type.id }}" {% if type.id== stock.type_id.id %} selected {% endif %}>{{
+                            type.productName }}
+                        </option>
                         {% endfor %}
                     </select>
                     <label for="type_id">ประเภท</label>
@@ -44,5 +42,4 @@
         </div>
     </div>
 </div>
-
 {% endblock %}

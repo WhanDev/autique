@@ -1,3 +1,5 @@
+import json
+
 from django.shortcuts import render
 from datetime import datetime
 
@@ -5,6 +7,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
+from decimal import Decimal
 import os
 from django.urls import reverse
 # from .forms import *
@@ -17,6 +20,7 @@ import plotly.express as px
 @login_required(login_url='signin')
 def home(request):
     return render(request, 'dasbord.html')
+
 
 def signin(request):
     if request.method == 'POST':
@@ -77,10 +81,59 @@ def changePassword(request):
     else:
         return render(request, 'auth/changePassword.html')
 
+from django.http import JsonResponse
+@login_required(login_url='signin')
+def stockInNew(request):
+    if request.method == 'POST':
+        cus_id = request.POST.get('cus_id')
+        purchase_items = request.POST.get('purchase_items')
+
+        purchase_items = json.loads(purchase_items)
+
+        customer, _ = Customer.objects.get_or_create(id=cus_id)
+
+        total = 0
+
+        for item in purchase_items:
+            type_id = int(item['type_id'])
+            amount = int(item['amount'])
+
+            order = ReceiveOrder.objects.create()
+
+            if not InventoryStock.objects.filter(type_id=type_id).exists():
+                inventory = InventoryStock.objects.create(type_id=type_id, totalAmount=amount)
+            else:
+                inventory = InventoryStock.objects.get(type_id=type_id)
+                inventory.totalAmount += amount
+                inventory.save()
+
+            detail = ReceiveDetail.objects.create(
+                inv_id=inventory,
+                amount=amount,
+                total=inventory.type_id.rateReceive * amount,
+                cus_id=customer,
+                order_id=order.id
+            )
+
+            total += detail.total
+
+        order.total = total
+        order.save()
+
+        if request.is_ajax():
+            return JsonResponse({'success': True})
+        else:
+            return redirect('stockInList')
+
+    types = Type.objects.all().order_by('id')
+    cuss = Customer.objects.all().order_by('id')
+    context = {'types': types, 'cuss': cuss}
+    return render(request, 'stock/stockInNew.html', context)
+
 
 @login_required(login_url='signin')
-def stockIn(request):
-    return render(request, 'stock/stockIn.html')
+def stockInList(request):
+    return render(request, 'stock/stockInList.html')
 
 
 @login_required(login_url='signin')
@@ -113,13 +166,13 @@ def stockList(request):
 
 
 @login_required(login_url='signin')
-def stockDelete(request,id):
+def stockDelete(request, id):
     stock = get_object_or_404(InventoryStock, id=id)
     if request.method == 'POST':
         stock.delete()
         return redirect('stockList')
     context = {'stock': stock}
-    return render(request, 'stock/stockDelete.html',context)
+    return render(request, 'stock/stockDelete.html', context)
 
 
 @login_required(login_url='signin')

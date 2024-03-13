@@ -1,4 +1,3 @@
-@ -1,7 +1,43 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
@@ -11,15 +10,18 @@
             <form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="form-floating mb-3">
-                    <input class="form-control" id="productName" name="productName" type="text" placeholder="ชื่อประเภท" value="{{ type.productName }}" required/>
+                    <input class="form-control" id="productName" name="productName" type="text" placeholder="ชื่อประเภท"
+                           value="{{ type.productName }}" required/>
                     <label for="productName">ชื่อประเภท</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <input class="form-control" id="rateReceive" name="rateReceive" type="text" placeholder="อัตราการรับซื้อ / กิโลกรัม" value="{{ type.rateReceive }}" required/>
+                    <input class="form-control" id="rateReceive" name="rateReceive" type="text"
+                           placeholder="อัตราการรับซื้อ / กิโลกรัม" value="{{ type.rateReceive }}" required/>
                     <label for="rateReceive">อัตราการรับซื้อ</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <input class="form-control" id="rateSend" name="rateSend" type="text" placeholder="อัตราการรับขาย / กิโลกรัม" value="{{ type.rateSend }}" required/>
+                    <input class="form-control" id="rateSend" name="rateSend" type="text"
+                           placeholder="อัตราการรับขาย / กิโลกรัม" value="{{ type.rateSend }}" required/>
                     <label for="rateSend">อัตราการรับขาย</label>
                 </div>
 

@@ -25,7 +25,9 @@ urlpatterns = [
     path('signout', views.signOut, name = 'signout'),
     path('changepassword', views.changePassword, name = 'changePassword'),
 
-    path('stockin/stockin', views.stockIn, name = 'stockIn'),
+    path('stockIn/new', views.stockInNew, name = 'stockInNew'),
+    path('stockIn/list', views.stockInList, name = 'stockInList'),
+
     path('stockout/stockout', views.stockOut, name = 'stockOut'),
 
     path('stock/new', views.stockNew, name = 'stockNew'),
