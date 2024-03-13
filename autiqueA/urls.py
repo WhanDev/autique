@@ -30,13 +30,13 @@ urlpatterns = [
 
     path('stock/new', views.stockNew, name = 'stockNew'),
     path('stock/list', views.stockList, name = 'stockList'),
-    path('stock/delete', views.stockDelete, name = 'stockDelete'),
-    path('stock/update', views.stockUpdate, name = 'stockUpdate'),
+    path('stock/delete/<id>', views.stockDelete, name='stockDelete'),
+    path('stock/update/<id>', views.stockUpdate, name='stockUpdate'),
 
     path('type/new', views.typeNew, name = 'typeNew'),
     path('type/list', views.typeList, name = 'typeList'),
-    path('type/delete', views.typeDelete, name = 'typeDelete'),
-    path('type/update', views.typeUpdate, name = 'typeUpdate'),
+    path('type/delete/<id>', views.typeDelete, name='typeDelete'),
+    path('type/update/<id>', views.typeUpdate, name='typeUpdate'),
 
     path('customer/new', views.cusNew, name = 'cusNew'),
     path('customer/list', views.cusList, name = 'cusList'),

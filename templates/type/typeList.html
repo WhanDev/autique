@@ -1,7 +1,65 @@
+@ -1,7 +1,62 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
 <div>
     <h1>List</h1>
+<div class="p-3">
+    <div class="d-flex justify-content-between align-items-center">
+        <h1>ข้อมูลประเภท</h1>
+        <div >
+            <a class="btn btn-primary btn-block w-100" href="{% url 'typeNew' %}">
+            เพิ่มข้อมูล
+        </a>
+        </div>
+    </div>
+    <div class="card mb-4">
+        <div class="card-body">
+            <table id="datatablesSimple">
+                <thead>
+                <tr>
+                    <th>รหัสประเภท</th>
+                    <th>ชื่อประเภท</th>
+                    <th>อัตราการรับซื้อ / กิโลกรัม</th>
+                    <th>อัตราการรับขาย / กิโลกรัม</th>
+                    <th>จัดการข้อมูล</th>
+                </tr>
+                </thead>
+                <tfoot>
+                <tr>
+                    <th>รหัสประเภท</th>
+                    <th>ชื่อประเภท</th>
+                    <th>อัตราการรับซื้อ / กิโลกรัม</th>
+                    <th>อัตราการรับขาย / กิโลกรัม</th>
+                    <th>จัดการข้อมูล</th>
+                </tr>
+                </tfoot>
+                <tbody>
+                {% for type in types %}
+                <tr>
+                    <td>{{type.id}}</td>
+                    <td>{{type.productName}}</td>
+                    <td>{{type.rateReceive}}</td>
+                    <td>{{type.rateSend}}</td>
+                    <td>
+                        <div class="d-flex justify-content-center align-items-center">
+                            <div class="me-1 w-50">
+                                <a class="btn btn-warning btn-block w-100" href="{% url 'typeUpdate' type.id %}">
+                                    แก้ไข
+                                </a>
+                            </div>
+                            <div class="ms-1 w-50">
+                                <a class="btn btn-danger btn-block w-100" href="{% url 'typeDelete' type.id %}">
+                                    ลบ
+                                </a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 {% endblock %}

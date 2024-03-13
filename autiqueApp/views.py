@@ -18,7 +18,6 @@ import plotly.express as px
 def home(request):
     return render(request, 'dasbord.html')
 
-
 def signin(request):
     if request.method == 'POST':
         userName = request.POST.get("inputUsername")
@@ -91,42 +90,101 @@ def stockOut(request):
 
 @login_required(login_url='signin')
 def stockNew(request):
-    return render(request, 'stock/stockNew.html')
+    if request.method == 'POST':
+        type_id = request.POST.get('type_id')
+        totalAmount = request.POST.get('totalAmount')
+        stock = InventoryStock()
+        type_instance = Type.objects.get(id=type_id)
+        stock.type_id = type_instance
+        stock.totalAmount = totalAmount
+
+        stock.save()
+        return redirect('stockList')
+    types = Type.objects.all().order_by('id')
+    context = {'types': types}
+    return render(request, 'stock/stockNew.html', context)
 
 
 @login_required(login_url='signin')
 def stockList(request):
-    return render(request, 'stock/stockList.html')
+    stock = InventoryStock.objects.all().order_by('id')
+    context = {'stocks': stock}
+    return render(request, 'stock/stockList.html', context)
 
 
 @login_required(login_url='signin')
-def stockDelete(request):
-    return render(request, 'stock/stockDelete.html')
+def stockDelete(request,id):
+    stock = get_object_or_404(InventoryStock, id=id)
+    if request.method == 'POST':
+        stock.delete()
+        return redirect('stockList')
+    context = {'stock': stock}
+    return render(request, 'stock/stockDelete.html',context)
 
 
 @login_required(login_url='signin')
-def stockUpdate(request):
-    return render(request, 'stock/stockUpdate.html')
+def stockUpdate(request, id):
+    stock = get_object_or_404(InventoryStock, id=id)
+    if request.method == 'POST':
+        type_id = request.POST.get('type_id')
+        totalAmount = request.POST.get('totalAmount')
+        type_instance = Type.objects.get(id=type_id)
+        stock.type_id = type_instance
+        stock.totalAmount = totalAmount
+        stock.save()
+        return redirect('stockList')
+    types = Type.objects.all().order_by('id')
+    context = {'stock': stock, 'types': types}
+    return render(request, 'stock/stockUpdate.html', context)
 
 
 @login_required(login_url='signin')
 def typeNew(request):
-    return render(request, 'type/typeNew.html')
+    if request.method == 'POST':
+        productName = request.POST.get('productName')
+        rateReceive = request.POST.get('rateReceive')
+        rateSend = request.POST.get('rateSend')
+        type = Type()
+        type.productName = productName
+        type.rateReceive = rateReceive
+        type.rateSend = rateSend
+        type.save()
+        return redirect('typeList')
+    else:
+        return render(request, 'type/typeNew.html')
 
 
 @login_required(login_url='signin')
 def typeList(request):
-    return render(request, 'type/typeList.html')
+    type = Type.objects.all().order_by('id')
+    context = {'types': type}
+    return render(request, 'type/typeList.html', context)
 
 
 @login_required(login_url='signin')
-def typeDelete(request):
-    return render(request, 'type/typeDelete.html')
+def typeDelete(request, id):
+    type = get_object_or_404(Type, id=id)
+    if request.method == 'POST':
+        type.delete()
+        return redirect('typeList')
+    context = {'type': type}
+    return render(request, 'type/typeDelete.html', context)
 
 
 @login_required(login_url='signin')
-def typeUpdate(request):
-    return render(request, 'type/typeUpdate.html')
+def typeUpdate(request, id):
+    type = get_object_or_404(Type, id=id)
+    if request.method == 'POST':
+        productName = request.POST.get('productName')
+        rateReceive = request.POST.get('rateReceive')
+        rateSend = request.POST.get('rateSend')
+        type.productName = productName
+        type.rateReceive = rateReceive
+        type.rateSend = rateSend
+        type.save()
+        return redirect('typeList')
+    context = {'type': type}
+    return render(request, 'type/typeUpdate.html', context)
 
 
 @login_required(login_url='signin')
