@@ -20,7 +20,10 @@ from autiqueApp import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.home, name = 'home'),
+    path('dashboard', views.home, name = 'home'),
+    path('', views.signin, name = 'signin'),
+    path('signout', views.signOut, name = 'signout'),
+    path('changepassword', views.changePassword, name = 'changePassword'),
 
     path('stockin/stockin', views.stockIn, name = 'stockIn'),
     path('stockout/stockout', views.stockOut, name = 'stockOut'),
@@ -37,13 +40,13 @@ urlpatterns = [
 
     path('customer/new', views.cusNew, name = 'cusNew'),
     path('customer/list', views.cusList, name = 'cusList'),
-    path('customer/delete', views.cusDelete, name = 'cusDelete'),
-    path('customer/update', views.cusUpdate, name = 'cusUpdate'),
+    path('customer/delete/<id>', views.cusDelete, name = 'cusDelete'),
+    path('customer/update/<id>', views.cusUpdate, name = 'cusUpdate'),
 
     path('employee/new', views.empNew, name = 'empNew'),
     path('employee/list', views.empList, name = 'empList'),
-    path('employee/delete', views.empDelete, name = 'empDelete'),
-    path('employee/update', views.empUpdate, name = 'empUpdate'),
+    path('employee/delete/<id>', views.empDelete, name = 'empDelete'),
+    path('employee/update/<id>', views.empUpdate, name = 'empUpdate'),
 
 
 ]

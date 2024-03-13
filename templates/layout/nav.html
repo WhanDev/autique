@@ -17,11 +17,11 @@
                         ข้อมูลสินค้า
                     </a>
                     <div class="sb-sidenav-menu-heading">จัดการข้อมูล</div>
-                    <a class="nav-link" href="{% url 'cusNew' %}">
+                    <a class="nav-link" href="{% url 'cusList' %}">
                         <div class="sb-nav-link-icon"><i class="fas fa-address-book"></i></div>
                         ข้อมูลลูกค้า
                     </a>
-                    <a class="nav-link" href="{% url 'empNew' %}">
+                    <a class="nav-link" href="{% url 'empList' %}">
                         <div class="sb-nav-link-icon"><i class="fas fa-id-card-alt"></i></div>
                         ข้อมูลพนักงาน
                     </a>
@@ -29,7 +29,7 @@
             </div>
             <div class="sb-sidenav-footer">
                 <div class="small">Logged in as:</div>
-                Start Bootstrap
+                {{ request.session.userName|upper}}
             </div>
         </nav>
     </div>

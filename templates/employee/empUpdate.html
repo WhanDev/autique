@@ -1,7 +1,52 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<div>
-    <h1>ดีคับ</h1>
-</div>
+<div class="container">
+            <div class="row justify-content-center">
+                <div class="col-9 mt-4 mb-2">
+                    <div class="card shadow-lg border-0 rounded-lg mt-6">
+                        <div class="card-header"><h3 class="text-center font-weight-light my-4">แก้ไขข้อมูลพนักงาน</h3></div>
+                        <div class="card-body">
+                            <form method="post">
+                                {% csrf_token %}
+                                <div class="form-floating mb-3">
+                                    <input class="form-control" id="inputId" name="inputId" type="text"
+                                           placeholder="กรอกรหัสบัตรประชาชน" maxlength="13" value="{{ emp.id}}" disabled/>
+                                    <label for="inputId">รหัสบัตรประชาชน</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input class="form-control" id="inputUsername" name="inputUsername" type="text"
+                                           placeholder="กรอกชื่อผู้ใช้ (Username)" value="{{ emp.userName}}"/>
+                                    <label for="inputUsername">ชื่อผู้ใช้ (Username)</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input class="form-control" id="inputEmail" name="inputEmail" type="email"
+                                           placeholder="กรอกอีเมลล์ (Username)" value="{{ emp.email}}"/>
+                                    <label for="inputEmail">อีเมลล์</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input class="form-control" id="inputFullname" name="inputFullname" type="text"
+                                           placeholder="กรอกชื่อ-นามสกุล" value="{{ emp.fullName}}"/>
+                                    <label for="inputFullname">ชื่อ-นามสกุล</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <textarea class="form-control" id="inputAddress" name="inputAddress"
+                                           placeholder="กรอกที่อยู่" style="height: 150px;">{{ emp.address }}</textarea>
+                                    <label for="inputAddress">ที่อยู่</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input class="form-control" id="inputTell" name="inputTell" type="tel"
+                                           placeholder="กรอกเบอร์โทร" maxlength="10" value="{{ emp.tell}}"/>
+                                    <label for="inputTell">เบอร์โทร</label>
+                                </div>
+                                <div class="d-flex align-items-md-end justify-content-end">
+                                    <button type="button" class="btn btn-secondary" onclick="history.back()">กลับ</button>
+                                    <button type="submit" class="btn btn-primary mx-2">แก้ไขข้อมูล</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 {% endblock %}
