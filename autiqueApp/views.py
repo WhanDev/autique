@@ -12,8 +12,12 @@ from .models import *
 from django.contrib import messages
 import pandas as pd
 import plotly.express as px
+
+
+@login_required(login_url='signin')
 def home(request):
     return render(request, 'dasbord.html')
+
 
 def signin(request):
     if request.method == 'POST':
@@ -41,6 +45,7 @@ def signin(request):
     else:
         return render(request, 'auth/signin.html')
 
+
 @login_required(login_url='signin')
 def signOut(request):
     if request.session.get('userId'):
@@ -52,6 +57,8 @@ def signOut(request):
     else:
         return redirect('signin')
 
+
+@login_required(login_url='signin')
 def changePassword(request):
     userName = request.session.get('userName')
     if request.method == 'POST':
@@ -71,29 +78,58 @@ def changePassword(request):
     else:
         return render(request, 'auth/changePassword.html')
 
+
+@login_required(login_url='signin')
 def stockIn(request):
     return render(request, 'stock/stockIn.html')
+
+
+@login_required(login_url='signin')
 def stockOut(request):
     return render(request, 'stock/stockOut.html')
 
+
+@login_required(login_url='signin')
 def stockNew(request):
     return render(request, 'stock/stockNew.html')
+
+
+@login_required(login_url='signin')
 def stockList(request):
     return render(request, 'stock/stockList.html')
+
+
+@login_required(login_url='signin')
 def stockDelete(request):
     return render(request, 'stock/stockDelete.html')
+
+
+@login_required(login_url='signin')
 def stockUpdate(request):
     return render(request, 'stock/stockUpdate.html')
 
+
+@login_required(login_url='signin')
 def typeNew(request):
     return render(request, 'type/typeNew.html')
+
+
+@login_required(login_url='signin')
 def typeList(request):
     return render(request, 'type/typeList.html')
+
+
+@login_required(login_url='signin')
 def typeDelete(request):
     return render(request, 'type/typeDelete.html')
+
+
+@login_required(login_url='signin')
 def typeUpdate(request):
     return render(request, 'type/typeUpdate.html')
 
+
+@login_required(login_url='signin')
 def cusNew(request):
     if request.method == 'POST':
         id = request.POST['inputId']
@@ -105,10 +141,16 @@ def cusNew(request):
         return redirect('home')
     else:
         return render(request, 'customer/cusNew.html')
+
+
+@login_required(login_url='signin')
 def cusList(request):
     customers = Customer.objects.all().order_by('id')
     context = {'customers': customers}
     return render(request, 'customer/cusList.html', context)
+
+
+@login_required(login_url='signin')
 def cusDelete(request, id):
     cus = get_object_or_404(Customer, id=id)
     if request.method == 'POST':
@@ -117,6 +159,9 @@ def cusDelete(request, id):
     else:
         data = {'cus': cus}
         return render(request, 'customer/cusDelete.html', data)
+
+
+@login_required(login_url='signin')
 def cusUpdate(request, id):
     cus = get_object_or_404(Customer, id=id)
     if request.method == 'POST':
@@ -130,6 +175,8 @@ def cusUpdate(request, id):
         data = {'cus': cus}
         return render(request, 'customer/cusUpdate.html', data)
 
+
+@login_required(login_url='signin')
 def empNew(request):
     if request.method == 'POST':
         id = request.POST['inputId']
@@ -148,10 +195,16 @@ def empNew(request):
         return redirect('home')
     else:
         return render(request, 'employee/empNew.html')
+
+
+@login_required(login_url='signin')
 def empList(request):
     employees = Employee.objects.all().order_by('id')
     context = {'employees': employees}
     return render(request, 'employee/empList.html', context)
+
+
+@login_required(login_url='signin')
 def empDelete(request, id):
     emp = get_object_or_404(Employee, id=id)
     if request.method == 'POST':
@@ -160,6 +213,9 @@ def empDelete(request, id):
     else:
         data = {'emp': emp}
         return render(request, 'employee/empDelete.html', data)
+
+
+@login_required(login_url='signin')
 def empUpdate(request, id):
     emp = get_object_or_404(Employee, id=id)
     if request.method == 'POST':
@@ -168,7 +224,7 @@ def empUpdate(request, id):
         fullname = request.POST['inputFullname']
         address = request.POST['inputAddress']
         tell = request.POST['inputTell']
-        emp = Employee( id,username, email, fullname, address, tell)
+        emp = Employee(id, username, email, fullname, address, tell)
         emp.save()
         return redirect('empList')
     else:
