@@ -1,8 +1,8 @@
 import json
 
+from decimal import Decimal
 from django.shortcuts import render
 from datetime import datetime
-
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -15,6 +15,22 @@ from .models import *
 from django.contrib import messages
 import pandas as pd
 import plotly.express as px
+
+
+def chkPermission(request):
+    if 'userStatus' in request.session:
+        userStatus = request.session['userStatus']
+        if userStatus == 'employee':
+            messages.add_message(request, messages.WARNING, "ท่านกำลังเข้าใช้ในส่วนที่ไม่ได้รับอนุญาต!!!")
+            return False
+        else:
+            return True
+    else:
+        if Employee.objects.count() != 0:
+            messages.add_message(request, messages.WARNING, "ท่านกำลังเข้าใช้ในส่วนที่ไม่ได้รับอนุญาต!!!")
+            return False
+        else:
+            return True
 
 
 @login_required(login_url='signin')
@@ -138,7 +154,31 @@ def stockInList(request):
 
 @login_required(login_url='signin')
 def stockOut(request):
-    return render(request, 'stock/stockOut.html')
+    sendOrders = SendOrder.objects.all().order_by('id')
+    context = {'sendOrders': sendOrders}
+    return render(request, 'stock/stockOut.html', context)
+
+
+@login_required(login_url='signin')
+def stockSell(request, id):
+    stock = get_object_or_404(InventoryStock, id=id)
+    if request.method == 'POST':
+        sellAmount = request.POST['sellAmount']
+        sellAmount = Decimal(sellAmount)
+        stock.totalAmount -= sellAmount
+        type_instance = get_object_or_404(Type, productName=stock.type_id)
+        sendOrder = SendOrder()
+        sendOrder.inv_id = stock
+        sendOrder.amount = sellAmount
+        sendOrder.date = timezone.now()
+        sendOrder.total = sellAmount * type_instance.rateSend
+        sendOrder.emp_id = Employee.objects.get(id=request.session['userId'])
+        stock.save()
+        sendOrder.save()
+        return redirect('stockOut')
+    else:
+        data = {'stock': stock}
+        return render(request, 'stock/stockSell.html', data)
 
 
 @login_required(login_url='signin')
@@ -150,7 +190,6 @@ def stockNew(request):
         type_instance = Type.objects.get(id=type_id)
         stock.type_id = type_instance
         stock.totalAmount = totalAmount
-
         stock.save()
         return redirect('stockList')
     types = Type.objects.all().order_by('id')
@@ -289,6 +328,8 @@ def cusUpdate(request, id):
 
 @login_required(login_url='signin')
 def empNew(request):
+    if not chkPermission(request):
+        return redirect('home')
     if request.method == 'POST':
         id = request.POST['inputId']
         username = request.POST['inputUsername']
@@ -317,6 +358,8 @@ def empList(request):
 
 @login_required(login_url='signin')
 def empDelete(request, id):
+    if not chkPermission(request):
+        return redirect('home')
     emp = get_object_or_404(Employee, id=id)
     if request.method == 'POST':
         emp.delete()
@@ -328,6 +371,8 @@ def empDelete(request, id):
 
 @login_required(login_url='signin')
 def empUpdate(request, id):
+    if not chkPermission(request):
+        return redirect('home')
     emp = get_object_or_404(Employee, id=id)
     if request.method == 'POST':
         username = request.POST['inputUsername']

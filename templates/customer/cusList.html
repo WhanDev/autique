@@ -7,29 +7,26 @@
             <div class="card shadow-lg border-0 rounded-lg mt-6">
                 <div class="card-header"><h3 class="text-start font-weight-light my-4">ข้อมูลลูกค้า</h3></div>
                 <div class="card-body">
-                    <table class="table table-hover table-bordered rounded ">
+
+                    <table class="table table-hover table-bordered rounded " id="datatablesSimple">
+                        <thead>
                         <tr class="bg-white text-dark text-center">
                             <th class="col col-2">รหัสลูกค้า</th>
                             <th class="col col-3">ชื่อลูกค้า</th>
-                            <th class="col col-3">ตำแหน่ง</th>
+                            <th class="col col-3">ที่อยู่</th>
                             <th class="col col-2">จัดการข้อมูล
                                 <a href="{% url 'cusNew' %}"
                                    class="btn btn-sm btn-primary mx-auto ms-1 ">
                                     <i class="fa fa-plus"></i> </a>
                             </th>
                         </tr>
-                        <tr class="">
-                            <td class="bg-white"></td>
-                            <td class="bg-white"></td>
-                            <td class="bg-white"></td>
-                            <td class="bg-white"></td>
-                        </tr>
+                        </thead>
 
                         {% for customer in customers %}
                         <tr>
                             <td class="text-center">{{ customer.id }}</td>
                             <td class="text-center">{{ customer.fullName }}</td>
-                            <td class="text-center">CUSTOMER</td>
+                            <td class="text-center">{{ customer.address }}</td>
                             <td class="text-lg-center">
                                 <a href="{% url 'cusUpdate' customer.id %}" class="btn btn-secondary"> <i class="fa fa-tools"> </i> </a>
                                 <a href="{% url 'cusDelete' customer.id %}" class="btn btn-danger"> <i class="fa fa-trash"> </i> </a>
