@@ -2,8 +2,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<div>
-    <h1>ดีคับ</h1>
+
 <div class="p-3">
     <div class="d-flex justify-content-between align-items-center">
         <h1>ข้อมูลคลัง</h1>
@@ -54,6 +53,11 @@
                             <div class="ms-1 w-50">
                                 <a class="btn btn-danger btn-block w-100" href="{% url 'stockDelete' stock.id %}">
                                     ลบ
+                                </a>
+                            </div>
+                            <div class="ms-2 w-50">
+                                <a class="btn btn-success btn-block w-100" href="{% url 'stockSell' stock.id %}">
+                                    ขาย
                                 </a>
                             </div>
                         </div>
