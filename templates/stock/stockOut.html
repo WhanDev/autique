@@ -37,7 +37,7 @@
                     <td>{{sendOrder.inv_id.type_id.productName}}</td>
                     <td>{{sendOrder.amount}}</td>
                     <td>{{sendOrder.total}}</td>
-                    <td>{{sendOrder.date}}</td>
+                    <td>{{sendOrder.date|date:"j F Y เวลา H:i" }}</td>
                     <td>{{sendOrder.emp_id.fullName}}</td>
                 </tr>
                 {% endfor %}
