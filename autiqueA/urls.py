@@ -27,6 +27,7 @@ urlpatterns = [
 
     path('stockIn/new', views.stockInNew, name = 'stockInNew'),
     path('stockIn/list', views.stockInList, name = 'stockInList'),
+    path('stockIn/detail/<id>', views.stockInDetail, name = 'stockInDetail'),
 
     path('stockout/stockout', views.stockOut, name = 'stockOut'),
     path('stockout/sell/<id>', views.stockSell, name = 'stockSell'),
@@ -50,6 +51,4 @@ urlpatterns = [
     path('employee/list', views.empList, name = 'empList'),
     path('employee/delete/<id>', views.empDelete, name = 'empDelete'),
     path('employee/update/<id>', views.empUpdate, name = 'empUpdate'),
-
-
 ]
