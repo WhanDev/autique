@@ -202,13 +202,11 @@ def stockInList(request):
     context = {'orders': receiveOrders}
     return render(request, 'stock/stockInList.html', context)
 
-
 login_required(login_url='signin')
 def stockInDetail(request, id):
     receiveDetails = ReceiveDetail.objects.filter(order_id=id)
-    cus_ids = [detail.cus_id for detail in receiveDetails]
-    customer = Customer.objects.filter(id__in=cus_ids)
-    context = {'details': receiveDetails, 'customer': customer}
+    total = sum([detail.total for detail in receiveDetails])
+    context = {'details': receiveDetails, 'total': total}
     return render(request, 'stock/stockInDetail.html', context)
 
 
@@ -235,7 +233,7 @@ def stockSell(request, id):
         sendOrder.emp_id = Employee.objects.get(id=request.session['userId'])
         stock.save()
         sendOrder.save()
-        return redirect('stockOut')
+        return redirect('stockOutList')
     else:
         data = {'stock': stock}
         return render(request, 'stock/stockSell.html', data)
