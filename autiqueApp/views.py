@@ -61,18 +61,8 @@ def home(request):
                           paper_bgcolor="aliceblue", )
     chart_pie = fig_pie.to_html()
 
-    receiveOrderDetail = ReceiveDetail.objects.all()
-    receiveName = []
-    totalPrice = []
-    total = 0.0
-    total = Decimal(total)
-    for item in receiveOrderDetail:
-        receiveName.append(item.inv_id.type_id.productName)
-        totalPrice.append(item.total)
-        total += Decimal(item.total)
-    df_ROD = pd.DataFrame({"receiveName": receiveName, "totalPrice": totalPrice}, columns=['receiveName', 'totalPrice'])
-    fig_bar = px.bar(df_ROD, x='receiveName', y='totalPrice', title="แผนภูมิแท่งแสดงยอดขายแยกตามรายชื่อสินค้า")
-    fig_bar.update_layout(autosize=False, width=430, height=400,
+    fig_bar = px.bar(df_inv, x='ชื่อสินค้า', y='จำนวน', title="แผนภูมิแท่งแสดงจำนวนตามรายชื่อสินค้า")
+    fig_bar.update_layout(autosize=False, width=575, height=400,
                           margin=dict(l=10, r=10, b=100, t=100, pad=5),
                           paper_bgcolor="aliceblue", )
     chart_bar = fig_bar.to_html()
