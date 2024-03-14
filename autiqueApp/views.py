@@ -35,7 +35,52 @@ def chkPermission(request):
 
 @login_required(login_url='signin')
 def home(request):
-    return render(request, 'dasbord.html')
+    cusAll = Customer.objects.all()
+    countCus = len(cusAll)
+    empAll = Employee.objects.all()
+    countEmp = len(empAll)
+    receiveOrderAll = ReceiveOrder.objects.all()
+    countReceiveOrder = len(receiveOrderAll)
+    sendOrderAll = SendOrder.objects.all()
+    countSendOrder = len(sendOrderAll)
+
+    productNames = []
+    amounts = []
+    invStockAll = InventoryStock.objects.all()
+    totalSale = 0.00
+    totalSale = Decimal(totalSale)
+    for item in invStockAll:
+        productNames.append(item.type_id.productName)
+        amounts.append(item.totalAmount)
+        totalSale += Decimal(item.totalAmount)
+    df_inv = pd.DataFrame({"ชื่อสินค้า": productNames, "จำนวน": amounts}, columns=['ชื่อสินค้า', 'จำนวน'])
+    fig_pie = px.pie(df_inv, hole=.3, names='ชื่อสินค้า', values='จำนวน',
+                     title="แผนภูมิวงกลมแสดงจำนวนตามรายชื่อสินค้า")
+    fig_pie.update_layout(autosize=False, width=575, height=400,
+                          margin=dict(l=10, r=10, b=100, t=100, pad=5),
+                          paper_bgcolor="aliceblue", )
+    chart_pie = fig_pie.to_html()
+
+    receiveOrderDetail = ReceiveDetail.objects.all()
+    receiveName = []
+    totalPrice = []
+    total = 0.0
+    total = Decimal(total)
+    for item in receiveOrderDetail:
+        receiveName.append(item.type_id.productName)
+        totalPrice.append(item.total)
+        total += Decimal(item.total)
+    df_ROD = pd.DataFrame({"receiveName": receiveName, "totalPrice": totalPrice}, columns=['receiveName', 'totalPrice'])
+    fig_bar = px.bar(df_ROD, x='receiveName', y='totalPrice', title="แผนภูมิแท่งแสดงยอดขายแยกตามรายชื่อสินค้า")
+    fig_bar.update_layout(autosize=False, width=430, height=400,
+                          margin=dict(l=10, r=10, b=100, t=100, pad=5),
+                          paper_bgcolor="aliceblue", )
+    chart_bar = fig_bar.to_html()
+
+    data = {'countCus':countCus, 'countEmp':countEmp,
+            'countSendOrder':countSendOrder, 'countReceiveOrder':countReceiveOrder,
+            'chartPie':chart_pie, 'chartBar':chart_bar}
+    return render(request, 'dasbord.html', data)
 
 
 def signin(request):

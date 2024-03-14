@@ -13,8 +13,8 @@
                     <select class="form-select" id="type_id" name="type_id" required>
                         <option value="" selected disabled>โปรดเลือกประเภท</option>
                         {% for type in types %}
-                        <option value="{{ type.id }}" {% if type.id== stock.type_id.id %} selected {% endif %}>{{
-                            type.productName }}
+                        <option value="{{ type.id }}" {% if type.id == stock.type_id.id %} selected {% endif %}>
+                            {{ type.productName }}
                         </option>
                         {% endfor %}
                     </select>

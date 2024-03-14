@@ -28,7 +28,7 @@ urlpatterns = [
     path('stockIn/new', views.stockInNew, name = 'stockInNew'),
     path('stockIn/list', views.stockInList, name = 'stockInList'),
 
-    path('stockout/stockout', views.stockOut, name = 'stockOut'),
+    path('stockout/stockout', views.stockOut, name = 'stockOutList'),
     path('stockout/sell/<id>', views.stockSell, name = 'stockSell'),
 
     path('stock/new', views.stockNew, name = 'stockNew'),
