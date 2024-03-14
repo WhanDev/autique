@@ -67,7 +67,7 @@ def home(request):
     total = 0.0
     total = Decimal(total)
     for item in receiveOrderDetail:
-        receiveName.append(item.type_id.productName)
+        receiveName.append(item.inv_id.type_id.productName)
         totalPrice.append(item.total)
         total += Decimal(item.total)
     df_ROD = pd.DataFrame({"receiveName": receiveName, "totalPrice": totalPrice}, columns=['receiveName', 'totalPrice'])
