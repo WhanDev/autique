@@ -12,7 +12,7 @@
                 <div class="card bg-primary text-white mb-4">
                     <div class="card-body">จำนวนลูกค้า</div>
                     <div class="card-footer d-flex align-items-center justify-content-between">
-                        <p>{{ countCus }}</p>
+                        <p>{{ countCus }}&nbsp&nbsp&nbspคน</p>
                         <a class="small text-white stretched-link" href="{% url 'cusList' %}">รายละเอียด</a>
                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                     </div>
@@ -22,7 +22,7 @@
                 <div class="card bg-warning text-white mb-4">
                     <div class="card-body">จำนวนพนักงาน</div>
                     <div class="card-footer d-flex align-items-center justify-content-between">
-                        <P>{{countEmp}}</P>
+                        <P>{{countEmp}}&nbsp&nbsp&nbspคน</P>
                         <a class="small text-white stretched-link" href="{% url 'empList' %}">รายละเอียด</a>
                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                     </div>
@@ -32,7 +32,7 @@
                 <div class="card bg-success text-white mb-4">
                     <div class="card-body">รายการรับซื้อสินค้า</div>
                     <div class="card-footer d-flex align-items-center justify-content-between">
-                        <p>{{ countReceiveOrder }}</p>
+                        <p>{{ countReceiveOrder }}&nbsp&nbsp&nbspรายการ</p>
                         <a class="small text-white stretched-link" href="{% url 'stockInList' %}">รายละเอียด</a>
                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                     </div>
@@ -42,7 +42,7 @@
                 <div class="card bg-danger text-white mb-4">
                     <div class="card-body">รายการขายซื้อสินค้า</div>
                     <div class="card-footer d-flex align-items-center justify-content-between">
-                        <p>{{ countSendOrder }}</p>
+                        <p>{{ countSendOrder }}&nbsp&nbsp&nbspรายการ</p>
                         <a class="small text-white stretched-link" href="{% url 'stockOutList' %}">รายละเอียด</a>
                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                     </div>
@@ -53,8 +53,7 @@
             <div class="col-xl-6">
                 <div class="card mb-4">
                     <div class="card-header">
-                        <i class="fas fa-chart-area me-1"></i>
-                        Pie Chart Example
+                        <i class="fas fa-chart-pie me-1"></i>
                     </div>
                     <div class="card-body">
                         {{ chartPie | safe }}
@@ -65,60 +64,11 @@
                 <div class="card mb-4">
                     <div class="card-header">
                         <i class="fas fa-chart-bar me-1"></i>
-                        Bar Chart Example
                     </div>
                     <div class="card-body">
                         {{ chartBar | safe}}
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="card mb-4">
-            <div class="card-header">
-                <i class="fas fa-table me-1"></i>
-                DataTable Example
-            </div>
-            <div class="card-body">
-                <table id="datatablesSimple">
-                    <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Position</th>
-                        <th>Office</th>
-                        <th>Age</th>
-                        <th>Start date</th>
-                        <th>Salary</th>
-                    </tr>
-                    </thead>
-                    <tfoot>
-                    <tr>
-                        <th>Name</th>
-                        <th>Position</th>
-                        <th>Office</th>
-                        <th>Age</th>
-                        <th>Start date</th>
-                        <th>Salary</th>
-                    </tr>
-                    </tfoot>
-                    <tbody>
-                    <tr>
-                        <td>Tiger Nixon</td>
-                        <td>System Architect</td>
-                        <td>Edinburgh</td>
-                        <td>61</td>
-                        <td>2011/04/25</td>
-                        <td>$320,800</td>
-                    </tr>
-                    <tr>
-                        <td>Garrett Winters</td>
-                        <td>Accountant</td>
-                        <td>Tokyo</td>
-                        <td>63</td>
-                        <td>2011/07/25</td>
-                        <td>$170,750</td>
-                    </tr>
-                    </tbody>
-                </table>
             </div>
         </div>
     </div>
