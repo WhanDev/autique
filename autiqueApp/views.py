@@ -164,10 +164,7 @@ def stockInNew(request):
         total = 0
 
         for type_id, amount in zip(type_ids, amounts):
-            # Convert amount to Decimal
             amount = Decimal(amount)
-
-            # Retrieve the Type instance from the database
             type_instance = get_object_or_404(Type, id=type_id)
 
             if not InventoryStock.objects.filter(type_id=type_instance).exists():
@@ -187,6 +184,7 @@ def stockInNew(request):
             detail.cus_id = customer
             detail.order_id = order
             total += detail.total
+            detail.save()
 
         orderNew.total = total
         orderNew.save()
@@ -200,7 +198,18 @@ def stockInNew(request):
 
 @login_required(login_url='signin')
 def stockInList(request):
-    return render(request, 'stock/stockInList.html')
+    receiveOrders = ReceiveOrder.objects.all().order_by('id')
+    context = {'orders': receiveOrders}
+    return render(request, 'stock/stockInList.html', context)
+
+
+login_required(login_url='signin')
+def stockInDetail(request, id):
+    receiveDetails = ReceiveDetail.objects.filter(order_id=id)
+    cus_ids = [detail.cus_id for detail in receiveDetails]
+    customer = Customer.objects.filter(id__in=cus_ids)
+    context = {'details': receiveDetails, 'customer': customer}
+    return render(request, 'stock/stockInDetail.html', context)
 
 
 @login_required(login_url='signin')
