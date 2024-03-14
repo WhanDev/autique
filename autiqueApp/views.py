@@ -188,8 +188,11 @@ def stockInNew(request):
 
 @login_required(login_url='signin')
 def stockInList(request):
-    receiveOrders = ReceiveOrder.objects.all().order_by('id')
-    context = {'orders': receiveOrders}
+    receiveOrders = ReceiveDetail.objects.values('order_id','cus_id').distinct().order_by('order_id')
+    orders = ReceiveOrder.objects.all().order_by('id')
+    customers = Customer.objects.all().order_by('id')
+    receiveDetails = ReceiveDetail.objects.all().order_by('id')
+    context = {'receiveOrders': receiveOrders,'details':receiveDetails,'orders':orders,'customers':customers}
     return render(request, 'stock/stockInList.html', context)
 
 login_required(login_url='signin')

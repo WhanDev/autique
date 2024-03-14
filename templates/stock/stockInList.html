@@ -15,8 +15,6 @@
                     เพิ่มรายการรับซื้อ
                 </a>
             </div>
-
-
         </div>
     </div>
     <div class="card mb-4">
@@ -27,6 +25,7 @@
                     <th>รหัส</th>
                     <th>วันเวลา</th>
                     <th>ยอดรวม</th>
+                    <th>ลูกค้า</th>
                     <th>จัดการข้อมูล</th>
                 </tr>
                 </thead>
@@ -35,26 +34,37 @@
                     <th>รหัส</th>
                     <th>วันเวลา</th>
                     <th>ยอดรวม</th>
+                    <th>ลูกค้า</th>
                     <th>จัดการข้อมูล</th>
                 </tr>
                 </tfoot>
                 <tbody>
-                {% for order in orders %}
+                {% for ordersNumer in receiveOrders %}
                 <tr>
-                    <td>{{order.id}}</td>
-                    <td>{{ order.date|date:"j F Y เวลา H:i" }}</td>
+                    <td>{{ordersNumer.order_id}}</td>
+                    {% for order in orders %}
+                    {% if order.id == ordersNumer.order_id %}
+                    <td>{{order.date}}</td>
                     <td>{{order.total}}</td>
+                    {% endif %}
+                    {% endfor %}
+
+                    {% for customer in customers %}
+                    {% if customer.id == ordersNumer.cus_id %}
+                    <td>{{customer.fullName}}</td>
+                    {% endif %}
+                    {% endfor %}
+
                     <td>
                         <div class="d-flex justify-content-center align-items-center">
                             <div class="w-100">
-                                <a class="btn btn-success btn-block w-100" href="{% url 'stockInDetail' order.id %}">
+                                <a class="btn btn-success btn-block w-100" href="{% url 'stockInDetail' ordersNumer.order_id %}">
                                     ดูรายละเอียด
                                 </a>
                             </div>
                         </div>
                     </td>
-                </tr>
-                {% endfor %}
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
